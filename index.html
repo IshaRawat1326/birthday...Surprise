@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Birthday Surprise!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Happy Birthday! 🎉</h1>
+        <p> My Love ,
+            I’ve planned something special just for you!</p>
+        
+        <div id="countdown"></div>
+        
+        <img src="birthday_cake.png" alt="Birthday Cake" class="birthday-img"/>
+        
+        <button onclick="revealSurprise()">Reveal Surprise 🎁</button>
+        
+        <div id="surprise-message" class="hidden">
+            <h2>I wanted to wish you very best ... But u already have me💖</h2>
+            <br>
+            <br>
+            <video controls autoplay muted>
+                <source src="bday vdo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <br>
+            <div class="social-buttons">
+                <a href="https://www.whatsapp.com/" target="_blank">Share on whatsapp</a>
+                <br>
+                <br>
+                <a href="https://www.instagram.com/" target="_blank">Share on Instagram</a>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="birthday-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <script>
+        const countdownEl = document.getElementById('countdown');
+        const targetDate = new Date("2025-09-26T00:00:00").getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                countdownEl.innerHTML = "It's your birthday! 🎂";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        const timerInterval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        function revealSurprise() {
+            document.getElementById('surprise-message').classList.remove('hidden');
+            confetti({
+                particleCount: 300,
+                spread: 90,
+                origin: { y: 0.6 }
+            });
+            const music = document.getElementById('bg-music');
+            music.play().catch(e => {
+                console.log("Autoplay prevented by browser.");
+            });
+        }
+    </script>
+</body>
+</html>
